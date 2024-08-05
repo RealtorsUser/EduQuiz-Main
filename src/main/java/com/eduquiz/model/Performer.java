@@ -1,29 +1,22 @@
 package com.eduquiz.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.*;
+public class Performer {
 
-@Entity
-public class Result {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String quizId;
     private String name;
     private String schoolName;
     private int marks;
-    private String prize; // Nullable
-    private String coupon; // Nullable
+    private String coupon;
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public Performer(String quizId, String name, String schoolName, int marks, String coupon) {
+        this.quizId = quizId;
+        this.name = name;
+        this.schoolName = schoolName;
+        this.marks = marks;
+        this.coupon = coupon;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and setters
 
     public String getQuizId() {
         return quizId;
@@ -57,14 +50,6 @@ public class Result {
         this.marks = marks;
     }
 
-    public String getPrize() {
-        return prize;
-    }
-
-    public void setPrize(String prize) {
-        this.prize = prize;
-    }
-
     public String getCoupon() {
         return coupon;
     }
@@ -73,3 +58,4 @@ public class Result {
         this.coupon = coupon;
     }
 }
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -7,24 +7,24 @@
 </head>
 <body>
 <header>
-    <div class="logo"><a href="home.html" style="color:white; text-decoration:none;">EduQuiz</a></div>
+    <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div class="auth">
-        <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
+        <a th:href="@{/api/users/login}">Sign In</a> / <a th:href="@{/api/users/register}">Sign Up</a>
     </div>
 </header>
 <main>
     <aside>
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="schools.html">Schools</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-            <li><a href="results.html">Results</a></li>
-            <li><a href="prizes.html">Prizes</a></li>
-            <li><a href="updates.html">Updates</a></li>
-            <li><a href="youtube.html">YouTube</a></li>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="helpline.html">Helpline</a></li>
+            <li><a th:href="@{/home}">Home</a></li>
+            <li><a th:href="@{/schools}">Schools</a></li>
+            <li><a th:href="@{/quiz}">Quiz</a></li>
+            <li><a th:href="@{/results}">Results</a></li>
+            <li><a th:href="@{/prizes}">Prizes</a></li>
+            <li><a th:href="@{/updates}">Updates</a></li>
+            <li><a th:href="@{/youtube}">YouTube</a></li>
+            <li><a th:href="@{/aboutus}">About Us</a></li>
+            <li><a th:href="@{/helpline}">Helpline</a></li>
         </ul>
     </aside>
     <section id="main-content">
@@ -35,5 +35,6 @@
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>
 </footer>
+<script src="scripts.js"></script>
 </body>
 </html>

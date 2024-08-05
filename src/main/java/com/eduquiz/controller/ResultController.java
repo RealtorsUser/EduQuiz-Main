@@ -1,5 +1,6 @@
 package com.eduquiz.controller;
 
+import com.eduquiz.model.Performer;
 import com.eduquiz.model.Result;
 import com.eduquiz.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,50 +10,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/results")
+@RequestMapping("/api")
 public class ResultController {
 
     @Autowired
     private ResultService resultService;
 
-    @GetMapping
-    public List<Result> getAllResults() {
-        return resultService.getAllResults();
+    @GetMapping("/results")
+    public ResponseEntity<List<Result>> getResults(@RequestParam String username) {
+        List<Result> results = resultService.findByUsername(username);
+        return ResponseEntity.ok(results);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createResult(@RequestBody Result result) {
-        resultService.createResult(result);
-        return ResponseEntity.ok("Result created successfully");
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Result> getResultById(@PathVariable Long id) {
-        Result result = resultService.getResultById(id);
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateResult(@PathVariable Long id, @RequestBody Result result) {
-        String res = resultService.updateResult(id, result);
-        if (res.equals("Result updated successfully")) {
-            return ResponseEntity.ok(res);
-        } else {
-            return ResponseEntity.badRequest().body(res);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteResult(@PathVariable Long id) {
-        String res = resultService.deleteResult(id);
-        if (res.equals("Result deleted successfully")) {
-            return ResponseEntity.ok(res);
-        } else {
-            return ResponseEntity.badRequest().body(res);
-        }
+    @GetMapping("/top-performers")
+    public ResponseEntity<List<Performer>> getTopPerformers() {
+        List<Performer> performers = resultService.findTopPerformers();
+        return ResponseEntity.ok(performers);
     }
 }
+

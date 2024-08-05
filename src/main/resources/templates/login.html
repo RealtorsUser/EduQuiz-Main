@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -7,20 +7,21 @@
 </head>
 <body>
 <header>
-    <div class="logo"><a href="home.html" style="color:white; text-decoration:none;">EduQuiz</a></div>
+    <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div class="auth">
         <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
     </div>
 </header>
 <main>
-    <form id="loginForm">
+    <form id="loginForm" th:action="@{/api/users/submit_login}" method="post">
         <h2>Login</h2>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
+        <p th:if="${error}" th:text="${error}"></p>
     </form>
 </main>
 <footer>

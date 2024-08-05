@@ -1,10 +1,13 @@
 package com.eduquiz.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
 
 @Entity
-public class Result {
+public class TopPerformer {
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,18 +15,17 @@ public class Result {
     private String name;
     private String schoolName;
     private int marks;
-    private String prize; // Nullable
-    private String coupon; // Nullable
+    private String coupon;
 
-    // Getters and Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and Setters
 
     public String getQuizId() {
         return quizId;
@@ -57,14 +59,6 @@ public class Result {
         this.marks = marks;
     }
 
-    public String getPrize() {
-        return prize;
-    }
-
-    public void setPrize(String prize) {
-        this.prize = prize;
-    }
-
     public String getCoupon() {
         return coupon;
     }
@@ -73,3 +67,4 @@ public class Result {
         this.coupon = coupon;
     }
 }
+
