@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+}
+
+header .logo, header .title, header .auth {
+    margin: 0 1rem;
+}
+
+header .auth a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+
+header .auth a:hover {
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    flex: 1;
+}
+
+aside {
+    background-color: #f4f4f4;
+    width: 20%;
+    padding: 1rem;
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside ul li {
+    margin: 1rem 0;
+}
+
+aside ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+aside ul li a:hover {
+    text-decoration: underline;
+}
+
+#main-content {
+    flex: 1;
+    padding: 2rem;
+    position: relative;
+}
+
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form h2 {
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+}
+
+form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+form button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+#questions {
+    display: flex;
+    flex-direction: column;
+}
+
+#questions div {
+    margin-bottom: 1rem;
+}
+
+#timer {
+    margin-top: 1rem;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.question-number {
+    display: inline-block;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+.active {
+    background-color: yellow;
+}
+
+#submitQuiz {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#submitQuiz:hover {
+    background-color: #45a049;
+}

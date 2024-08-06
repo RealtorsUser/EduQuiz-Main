@@ -18,3 +18,4 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
             "ORDER BY r.marks DESC")
     List<Performer> findTopPerformers();
 }
+

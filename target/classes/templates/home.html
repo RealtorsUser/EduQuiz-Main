@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <div class="logo">EduQuiz Logo</div>
+    <div class="title">EduQuiz</div>
+    <div class="auth">
+        <a th:href="@{/api/users/login}">Sign In</a> / <a th:href="@{/api/users/register}">Sign Up</a>
+    </div>
+</header>
+<main>
+    <aside>
+        <ul>
+            <li><a th:href="@{/home}">Home</a></li>
+            <li><a th:href="@{/schools}">Schools</a></li>
+            <li><a th:href="@{/quiz}">Quiz</a></li>
+            <li><a th:href="@{/results}">Results</a></li>
+            <li><a th:href="@{/prizes}">Prizes</a></li>
+            <li><a th:href="@{/updates}">Updates</a></li>
+            <li><a th:href="@{/youtube}">YouTube</a></li>
+            <li><a th:href="@{/aboutus}">About Us</a></li>
+            <li><a th:href="@{/helpline}">Helpline</a></li>
+        </ul>
+    </aside>
+    <section id="main-content">
+        <h1>Welcome to EduQuiz</h1>
+        <p>Your platform for interactive quizzes and educational resources.</p>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 EduQuiz. All rights reserved.</p>
+</footer>
+<script src="scripts.js"></script>
+</body>
+</html>

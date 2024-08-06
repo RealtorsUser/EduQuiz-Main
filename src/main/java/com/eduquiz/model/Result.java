@@ -9,7 +9,7 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String quizId;
-    private String name;
+    private String username;
     private String schoolName;
     private int marks;
     private String prize; // Nullable
@@ -33,12 +33,12 @@ public class Result {
         this.quizId = quizId;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getSchoolName() {
