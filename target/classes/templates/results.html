@@ -30,11 +30,55 @@
     <section id="main-content">
         <h1>Results</h1>
         <div id="results">
-            <!-- Results will be loaded here -->
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Quiz ID</th>
+                    <th>Score</th>
+                    <th>User</th>
+                    <th>School</th>
+                    <th>Coupon</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="result : ${topPerformers}">
+                    <td th:text="${result.id}">1</td>
+                    <td th:text="${result.quiz.id}">2023-01-01</td>
+                    <td th:text="${result.score}">90</td>
+                    <td th:text="${result.user.username}">John Doe</td>
+                    <td th:text="${result.user.school.name}">ABC School</td>
+                    <td th:text="${result.prize}">Prize Info</td>
+                    <td th:text="${result.coupon}">Coupon Info</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <h2>Top Performers</h2>
         <div id="topPerformers">
-            <!-- Top performers will be loaded here -->
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Quiz ID</th>
+                    <th>Score</th>
+                    <th>User</th>
+                    <th>School</th>
+                    <th>Prize</th>
+                    <th>Coupon</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="result : ${userResults}">
+                    <td th:text="${result.id}">1</td>
+                    <td th:text="${result.quiz.id}">2023-01-01</td>
+                    <td th:text="${result.score}">90</td>
+                    <td th:text="${result.user.username}">John Doe</td>
+                    <td th:text="${result.user.school.name}">ABC School</td>
+                    <td th:text="${result.coupon}">Coupon Info</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </main>

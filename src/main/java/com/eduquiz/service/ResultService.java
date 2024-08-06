@@ -26,7 +26,7 @@ public class ResultService {
         return resultRepository.findTopPerformers();
     }
 
-    public List<Result> getResultsByUsername(String username) {
-        return resultRepository.findByUserName(username);
+    public List<Result> getResultsByUserName(String userName) {
+        return resultRepository.findByUserName(userName);
     }
 }

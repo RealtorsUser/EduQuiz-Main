@@ -13,6 +13,6 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
     @Query("SELECT r FROM Result r ORDER BY r.marks DESC")
     List<Result> findTopPerformers();
 
-    List<Result> findByUserName(String username);
+    List<Result> findByUserName(String userName);
 }
 

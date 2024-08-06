@@ -30,7 +30,7 @@ public class ResultController {
     }
 
     @GetMapping("/results/user")
-    public List<Result> getResultsByUsername(@RequestParam("username") String username) {
-        return resultService.getResultsByUsername(username);
+    public List<Result> getResultsByUserName(@RequestParam("userName") String userName) {
+        return resultService.getResultsByUserName(userName);
     }
 }
