@@ -12,8 +12,25 @@ document.addEventListener('DOMContentLoaded', function() {
             "question": "What is the chemical formula for water?",
             "options": ["CO2", "H2O", "NaCl", "O2"],
             "answer": "H2O"
+        },
+        {
+            "question": "Which gas is most abundant in the Earth's atmosphere?",
+            "options": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+            "answer": "Nitrogen"
+        },
+        {
+            "question": "What organ is responsible for pumping blood throughout the body?",
+            "option": ["Heart (Correct)", "Brain", "Liver", "Kidney"],
+            "answer": "Heart"
+        },
+        {
+
+            "Question": "What force keeps us on the ground and prevents us from floating into space?",
+            "option": ["Magnetism", "Gravity (Correct)", "Friction", "Buoyancy"],
+            "answe": "Gravity"
         }
-        // Add more questions here
+
+// Add more questions here
     ];
 
     const startQuizButton = document.getElementById('startQuiz');
@@ -25,58 +42,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const finishButton = document.getElementById('finishTest');
 
     // Fetch results from the backend
+        fetchResults();
+        fetchTopPerformers();
+
+
     function fetchResults() {
-        fetch('/api/results')
+        fetch('/results')
             .then(response => response.json())
-            .then(data => displayResults(data))
+            .then(data => {
+                const resultsTbody = document.getElementById('results-tbody');
+                resultsTbody.innerHTML = '';
+                data.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${result.id}</td>
+                    <td>${result.quizId}</td>
+                    <td>${result.score}</td>
+                    <td>${result.user.username}</td>
+                    <td>${result.user.school.name}</td>
+                    <td>${result.coupon}</td>
+                `;
+                    resultsTbody.appendChild(row);
+                });
+            })
             .catch(error => console.error('Error fetching results:', error));
     }
 
-    // Display fetched results
-    function displayResults(results) {
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = ''; // Clear previous results
-
-        results.forEach(result => {
-            const resultElement = document.createElement('div');
-            resultElement.classList.add('result');
-            resultElement.innerHTML = `
-                <p>Quiz ID: ${result.quizId}</p>
-                <p>Name: ${result.name}</p>
-                <p>School Name: ${result.schoolName}</p>
-                <p>Marks: ${result.marks}</p>
-                <p>${result.prize ? 'Prize: ' + result.prize : 'Coupon: ' + result.coupon}</p>
-            `;
-            resultsDiv.appendChild(resultElement);
-        });
-    }
-
-    // Fetch top performers from the backend
     function fetchTopPerformers() {
-        fetch('/api/top-performers')
+        fetch('/results/top-performers')
             .then(response => response.json())
-            .then(data => displayTopPerformers(data))
+            .then(data => {
+                const topPerformersTbody = document.getElementById('top-performers-tbody');
+                topPerformersTbody.innerHTML = '';
+                data.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${result.id}</td>
+                    <td>${result.quizId}</td>
+                    <td>${result.score}</td>
+                    <td>${result.user.username}</td>
+                    <td>${result.user.school.name}</td>
+                    <td>${result.prize}</td>
+                    <td>${result.coupon}</td>
+                `;
+                    topPerformersTbody.appendChild(row);
+                });
+            })
             .catch(error => console.error('Error fetching top performers:', error));
     }
 
-    // Display fetched top performers
-    function displayTopPerformers(performers) {
-        const topPerformersDiv = document.getElementById('topPerformers');
-        topPerformersDiv.innerHTML = ''; // Clear previous top performers
-
-        performers.forEach(performer => {
-            const performerElement = document.createElement('div');
-            performerElement.classList.add('performer');
-            performerElement.innerHTML = `
-                <p>Quiz ID: ${performer.quizId}</p>
-                <p>Name: ${performer.name}</p>
-                <p>School Name: ${performer.schoolName}</p>
-                <p>Marks: ${performer.marks}</p>
-                <p>Coupon: ${performer.coupon}</p>
-            `;
-            topPerformersDiv.appendChild(performerElement);
-        });
-    }
 
     function startTimer() {
         timer = setInterval(() => {
@@ -197,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Check login status on page load
-    checkLoginStatus();
+     checkLoginStatus();
 
     // Fetch results and top performers when the page loads
     fetchResults();
