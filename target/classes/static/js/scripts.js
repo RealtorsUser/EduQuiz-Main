@@ -146,9 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
 
     // Logout functionality
-    document.getElementById('logout').addEventListener('click', function() {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
-        window.location.href = 'login.html';
-    });
+    // document.getElementById('logout').addEventListener('click', function() {
+    //     localStorage.removeItem('isLoggedIn');
+    //     localStorage.removeItem('username');
+    //     window.location.href = 'login.html';
+    // });
 });

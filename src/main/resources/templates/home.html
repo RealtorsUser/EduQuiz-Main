@@ -10,27 +10,29 @@
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div class="auth">
-        <a th:href="@{/api/users/login}">Sign In</a> / <a th:href="@{/api/users/register}">Sign Up</a>
+        <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
     </div>
 </header>
 <main>
+    <form id="loginForm" th:action="@{/api/home}" method="post">
     <aside>
         <ul>
-            <li><a th:href="@{/home}">Home</a></li>
-            <li><a th:href="@{/schools}">Schools</a></li>
-            <li><a th:href="@{/quiz}">Quiz</a></li>
-            <li><a th:href="@{/results}">Results</a></li>
-            <li><a th:href="@{/prizes}">Prizes</a></li>
-            <li><a th:href="@{/updates}">Updates</a></li>
-            <li><a th:href="@{/youtube}">YouTube</a></li>
-            <li><a th:href="@{/aboutus}">About Us</a></li>
-            <li><a th:href="@{/helpline}">Helpline</a></li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="schools.html">Schools</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="prizes.html">Prizes</a></li>
+            <li><a href="updates.html">Updates</a></li>
+            <li><a href="youtube.html">YouTube</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="helpline.html">Helpline</a></li>
         </ul>
     </aside>
     <section id="main-content">
         <h1>Welcome to EduQuiz</h1>
         <p>Your platform for interactive quizzes and educational resources.</p>
     </section>
+    </form>
 </main>
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>

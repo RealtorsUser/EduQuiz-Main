@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
     public String registerUser(@ModelAttribute("quizUser") User user, Model model) {
         String result = userService.registerUser(user);
         if (result.equals("User registered successfully")) {
-            return "redirect:/api/users/login";
+            return "redirect:/api/home";
         } else {
             model.addAttribute("error", result);
             return "register";
@@ -71,6 +71,11 @@ public class UserController {
     @GetMapping("/home")
     public String showHomePage() {
         return "home"; // This should map to home.html
+    }
+
+    @GetMapping("/api/users/user-results")
+    public String showResultsPage() {
+        return "results"; // This should map to results.html
     }
 
     @GetMapping
