@@ -1,44 +1,66 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    color: #333;
 }
 
 header {
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #2193b0, #6dd5ed);
     color: white;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 1rem 2rem;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 20px 20px;
 }
 
-header .logo, header .title, header .auth {
-    margin: 0 1rem;
+header .logo {
+    font-size: 2rem;
+    font-weight: bold;
 }
 
-header .auth a {
+header .title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+header .auth a, header .profile a {
     color: white;
     text-decoration: none;
     margin: 0 0.5rem;
+    transition: color 0.3s;
 }
 
-header .auth a:hover {
-    text-decoration: underline;
+header .auth a:hover, header .profile a:hover {
+    color: #ffd700;
 }
 
 main {
     display: flex;
     flex: 1;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
 }
 
 aside {
-    background-color: #f4f4f4;
+    background: linear-gradient(180deg, #ff7e5f, #feb47b);
     width: 20%;
-    padding: 1rem;
+    padding: 2rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color: white;
+    border-radius: 20px;
 }
 
 aside ul {
@@ -47,62 +69,90 @@ aside ul {
 }
 
 aside ul li {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
 }
 
 aside ul li a {
-    color: #333;
+    color: #fff;
     text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s;
 }
 
 aside ul li a:hover {
-    text-decoration: underline;
+    color: #ffd700;
 }
 
 #main-content {
     flex: 1;
-    padding: 2rem;
-    position: relative;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 footer {
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #2193b0, #6dd5ed);
     color: white;
     text-align: center;
     padding: 1rem;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px 20px 0 0;
 }
 
 form {
     max-width: 600px;
+    width: 100%;
     margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 form h2 {
     text-align: center;
+    margin-bottom: 2rem;
+    color: #ff7e5f;
 }
 
-form label {
-    display: block;
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-row label {
+    flex: 1 1 45%;
     margin: 1rem 0 0.5rem;
 }
 
-form input {
-    width: 100%;
-    padding: 0.5rem;
+.form-row input {
+    flex: 1 1 45%;
+    padding: 0.75rem;
     margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
 }
 
 form button {
     width: 100%;
     padding: 0.75rem;
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #2193b0, #6dd5ed);
     color: white;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
 }
 
 form button:hover {
-    background-color: #45a049;
+    background: linear-gradient(90deg, #6dd5ed, #2193b0);
 }
 
 #questions {
@@ -112,37 +162,76 @@ form button:hover {
 
 #questions div {
     margin-bottom: 1rem;
+    font-size: 1.2rem;
+    padding: 1rem;
+    background-color: #f0f4f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #timer {
     margin-top: 1rem;
     font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.question-number {
-    display: inline-block;
-    padding: 5px;
-    margin: 2px;
-    cursor: pointer;
-    border: 1px solid #000;
-}
-
-.active {
-    background-color: yellow;
+    font-size: 1.5rem;
+    color: #ff4081;
 }
 
 #submitQuiz {
     margin-top: 1rem;
     padding: 0.75rem;
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
     color: white;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
 }
 
 #submitQuiz:hover {
-    background-color: #45a049;
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+}
+
+button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(90deg, #2193b0, #6dd5ed);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #6dd5ed, #2193b0);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
 }

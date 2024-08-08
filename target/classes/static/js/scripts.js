@@ -2,19 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentQuestionIndex = 0;
     let timer;
     let timeLeft = 20 * 60; // 20 minutes in seconds
-    const questions = [
-        {
-            "question": "What is the process by which plants make their own food using sunlight called?",
-            "options": ["Respiration", "Photosynthesis", "Fermentation", "Digestion"],
-            "answer": "Photosynthesis"
-        },
-        {
-            "question": "What is the chemical formula for water?",
-            "options": ["CO2", "H2O", "NaCl", "O2"],
-            "answer": "H2O"
-        }
-        // Add more questions here
-    ];
+    let questions = [];
+    const answers = []; // Array to store user answers
 
     const startQuizButton = document.getElementById('startQuiz');
     const timerElement = document.getElementById('timer');
@@ -24,12 +13,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.getElementById('nextQuestion');
     const finishButton = document.getElementById('finishTest');
 
+    async function fetchQuestions() {
+        try {
+            const response = await fetch('/api/quizzes');
+            if (response.ok) {
+                questions = await response.json();
+                displayQuestion(currentQuestionIndex);
+                setupQuestionNumbers();
+            } else {
+                console.error('Failed to fetch questions');
+            }
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+        }
+    }
+
     function startTimer() {
         timer = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(timer);
                 alert('Time is up!');
-                // Submit quiz automatically
                 submitQuiz();
             } else {
                 timeLeft--;
@@ -45,21 +48,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayQuestion(index) {
-        questionsDiv.innerHTML = '';
+        if (index < 0 || index >= questions.length) return;
+
         const question = questions[index];
-        const questionElement = document.createElement('div');
-        questionElement.textContent = `${index + 1}. ${question.question}`;
-        question.options.forEach((option, i) => {
-            const optionElement = document.createElement('div');
-            optionElement.textContent = `${String.fromCharCode(65 + i)}) ${option}`;
-            questionElement.appendChild(optionElement);
-        });
-        questionsDiv.appendChild(questionElement);
+        questionsDiv.innerHTML = `
+            <h2>${index + 1}. ${question.question}</h2>
+            ${question.options.map((option, i) => `
+                <div>
+                    <input type="radio" id="option${i}" name="answer" value="${option}">
+                    <label for="option${i}">${option}</label>
+                </div>
+            `).join('')}
+        `;
+
         updateQuestionNumberHighlight();
         updateNavigationButtons();
     }
 
     function setupQuestionNumbers() {
+        questionNumbersDiv.innerHTML = ''; // Clear previous numbers
         questions.forEach((_, index) => {
             const numberElement = document.createElement('div');
             numberElement.classList.add('question-number');
@@ -75,11 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateQuestionNumberHighlight() {
         const numbers = document.querySelectorAll('.question-number');
         numbers.forEach((num, index) => {
-            if (index === currentQuestionIndex) {
-                num.classList.add('active');
-            } else {
-                num.classList.remove('active');
-            }
+            num.classList.toggle('active', index === currentQuestionIndex);
         });
     }
 
@@ -88,9 +91,34 @@ document.addEventListener('DOMContentLoaded', function() {
         nextButton.disabled = currentQuestionIndex === questions.length - 1;
     }
 
-    function submitQuiz() {
-        // Add your quiz submission logic here
-        alert('Quiz submitted');
+    function collectAnswers() {
+        const selectedOption = document.querySelector('input[name="answer"]:checked');
+        if (selectedOption) {
+            answers[currentQuestionIndex] = selectedOption.value;
+        }
+    }
+
+    async function submitQuiz() {
+        collectAnswers();
+        const submission = answers.map((answer, index) => ({
+            questionId: questions[index].id,
+            selectedAnswer: answer
+        }));
+
+        try {
+            const response = await fetch('/api/quizzes/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answers: submission })
+            });
+
+            const result = await response.json();
+            alert(`Your score: ${result.score}/${result.totalQuestions}`);
+        } catch (error) {
+            console.error('Error submitting quiz:', error);
+        }
     }
 
     function checkLoginStatus() {
@@ -101,29 +129,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const usernameSpan = document.getElementById('username');
 
         if (!isLoggedIn) {
-            // Redirect to login page if not logged in
             window.location.href = 'login.html';
-            return;
-        }
-
-        if (isLoggedIn) {
+        } else {
             authSection.style.display = 'none';
             profileSection.style.display = 'block';
             usernameSpan.textContent = username;
-        } else {
-            authSection.style.display = 'block';
-            profileSection.style.display = 'none';
         }
     }
 
     startQuizButton.addEventListener('click', function() {
         startQuizButton.disabled = true;
-        startTimer();
-        displayQuestion(currentQuestionIndex);
-        setupQuestionNumbers();
+        fetchQuestions().then(() => {
+            startTimer();
+            displayQuestion(currentQuestionIndex);
+        });
     });
 
     prevButton.addEventListener('click', function() {
+        collectAnswers();
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayQuestion(currentQuestionIndex);
@@ -131,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     nextButton.addEventListener('click', function() {
+        collectAnswers();
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             displayQuestion(currentQuestionIndex);
@@ -139,16 +163,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     finishButton.addEventListener('click', function() {
         clearInterval(timer);
+        collectAnswers();
         submitQuiz();
     });
 
-    // Check login status on page load
     checkLoginStatus();
 
-    // Logout functionality
-    // document.getElementById('logout').addEventListener('click', function() {
-    //     localStorage.removeItem('isLoggedIn');
-    //     localStorage.removeItem('username');
-    //     window.location.href = 'login.html';
-    // });
+    document.getElementById('logout').addEventListener('click', function() {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        window.location.href = 'login.html';
+    });
 });

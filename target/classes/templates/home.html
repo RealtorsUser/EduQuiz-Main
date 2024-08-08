@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css">
-    <link th:href="@{styles.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header>
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
-    <div class="auth">
-        <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
+    <div>
+        <span th:if="${username != null}">Welcome, <span th:text="${username}"></span>!</span>
+        <span th:if="${username == null}">Welcome, Guest!</span>
     </div>
 </header>
 <main>
-    <form id="loginForm" th:action="@{/api/home}" method="post">
+    <form id="loginForm" th:action="@{/api/users/home}" method="post">
     <aside>
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="schools.html">Schools</a></li>
+            <li><a href="api/users/home">Home</a></li>
+            <li><a href="api/schools/view">Schools</a></li>
             <li><a href="quiz.html">Quiz</a></li>
-            <li><a href="results.html">Results</a></li>
+            <li><a href="api/users/results">Results</a></li>
             <li><a href="prizes.html">Prizes</a></li>
             <li><a href="updates.html">Updates</a></li>
             <li><a href="youtube.html">YouTube</a></li>
@@ -38,6 +38,6 @@
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>
 </footer>
-<script src="scripts.js"></script>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>

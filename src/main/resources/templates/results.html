@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Results</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header>
@@ -17,7 +17,7 @@
     <form id="Result Page" th:action="@{/api/users/results}" method="post">
     <aside>
         <ul>
-            <li><a href="home.html">Home</a></li>
+            <li><a href="api/users/home">Home</a></li>
             <li><a href="schools.html">Schools</a></li>
             <li><a href="quiz.html">Quiz</a></li>
             <li><a href="results.html">Results</a></li>
@@ -82,10 +82,11 @@
             </table>
         </div>
     </section>
+    </form>
 </main>
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>
 </footer>
-<script src="scripts.js"></script>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>

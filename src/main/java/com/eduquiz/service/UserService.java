@@ -4,6 +4,7 @@ import com.eduquiz.model.User;
 import com.eduquiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +15,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String registerUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            return "Username already exists. Please choose another.";
+        if (userRepository.existsByUsername(user.getUsername())) {
+            return "Username already taken";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
