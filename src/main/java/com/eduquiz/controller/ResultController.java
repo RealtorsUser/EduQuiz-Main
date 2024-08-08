@@ -16,7 +16,7 @@ public class ResultController {
     @Autowired
     private ResultService resultService;
 
-    @GetMapping("/api/results")
+    @GetMapping("/results")
     public String getResultsPage(Model model) {
         List<Result> results = resultService.getAllResults();
         model.addAttribute("results", results);

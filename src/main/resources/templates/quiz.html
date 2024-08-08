@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header>
@@ -37,13 +37,13 @@
         <div id="questionNumbers"></div>
         <div id="questions"></div>
         <button id="prevQuestion" disabled>Previous</button>
-        <button id="nextQuestion">Next</button>
-        <button id="finishTest">Finish Test</button>
+        <button id="nextQuestion" disabled>Next</button>
+        <button id="finishTest" disabled>Finish Test</button>
     </section>
 </main>
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>
 </footer>
-<script src="scripts.js"></script>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>
