@@ -20,6 +20,9 @@ import com.eduquiz.service.ResultService;
 import com.eduquiz.service.SchoolService;
 import com.eduquiz.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping
 public class UserController {
@@ -62,7 +65,7 @@ public class UserController {
     @PostMapping("/submit_login")
     public String loginUser(@RequestParam("username") String username,
                             @RequestParam("password") String password,
-                            Model model) {
+                            Model model, HttpServletRequest request) {
         System.out.println("Attempting login for username: " + username);
 
         User user = userService.findByUsername(username);
@@ -74,6 +77,7 @@ public class UserController {
             if (passwordMatch) {
                 System.out.println("Login successful, redirecting to /home");
                 model.addAttribute("username", user.getUsername());
+                request.getSession().setAttribute("username", user.getUsername());
                 return "home";
             }
         }
@@ -143,4 +147,11 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+    
+    @GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		// Clear session and redirect to login page
+		request.getSession().invalidate();
+		return "redirect:/login?logout";
+	}
 }
