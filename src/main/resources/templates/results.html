@@ -10,17 +10,17 @@
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div class="auth">
-        <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
+        <span>Welcome, <span th:text="${username}"></span>!</span>
     </div>
 </header>
 <main>
     <form id="Result Page" th:action="@{/api/users/results}" method="post">
     <aside>
         <ul>
-            <li><a href="api/users/home">Home</a></li>
-            <li><a href="schools.html">Schools</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-            <li><a href="results.html">Results</a></li>
+            <li><a href="home">Home</a></li>
+            <li><a href="schools">Schools</a></li>
+            <li><a href="quiz">Quiz</a></li>
+            <li><a href="results">Results</a></li>
             <li><a href="prizes.html">Prizes</a></li>
             <li><a href="updates.html">Updates</a></li>
             <li><a href="youtube.html">YouTube</a></li>
@@ -44,13 +44,13 @@
                 </thead>
                 <tbody>
                 <tr th:each="result : ${topPerformers}">
-                    <td th:text="${result.id}">1</td>
-                    <td th:text="${result.quiz.id}">2023-01-01</td>
-                    <td th:text="${result.score}">90</td>
-                    <td th:text="${result.user.username}">John Doe</td>
-                    <td th:text="${result.user.school.name}">ABC School</td>
-                    <td th:text="${result.prize}">Prize Info</td>
-                    <td th:text="${result.coupon}">Coupon Info</td>
+                    <td th:text="${result.id}"></td>
+                    <td th:text="${result.quiz.id}"></td>
+                    <td th:text="${result.score}"></td>
+                    <td th:text="${result.user.username}"></td>
+                    <td th:text="${result.user.school.name}"></td>
+                    <td th:text="${result.prize}"></td>
+                    <td th:text="${result.coupon}"></td>
                 </tr>
                 </tbody>
             </table>

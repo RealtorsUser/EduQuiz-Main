@@ -14,10 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping
 public class UserController {
 
     @Autowired
@@ -43,7 +44,7 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         String result = userService.registerUser(user);
         if ("User registered successfully".equals(result)) {
-            return "redirect:/api/users/login";
+            return "redirect:login";
         } else {
             model.addAttribute("error", result);
             return "register";
@@ -79,37 +80,56 @@ public class UserController {
     }
 
     @GetMapping("/home")
-    public String home(Model model, @AuthenticationPrincipal User user) {
-        if (user != null) {
-            System.out.println("User authenticated: " + user.getUsername());
-            model.addAttribute("username", user.getUsername());
-        } else {
-            System.out.println("User not authenticated");
-            model.addAttribute("username", "Guest");
-        }
-        return "home";
+    public String home(Model model, Principal principal) {
+        String username = principal.getName(); // Get the username of the logged-in user
+
+        // Fetch the user from the database using the username
+        User user = userService.findByUsername(username);
+
+        // Add the username to the model
+        model.addAttribute("username", user.getUsername());
+
+        return "home"; // Return the home.html view
     }
 
 
+    private void addUsernameToModel(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+        model.addAttribute("username", user.getUsername());
+    }
 
     @GetMapping("/results")
-    public String getResultsPage(Model model) {
+    public String getResultsPage(Model model, Principal principal) {
+        // Add username to the model
+        addUsernameToModel(model, principal);
+
+        // Existing logic
         List<Result> results = resultService.getAllResults();
         model.addAttribute("results", results);
         return "results"; // This will resolve to "results.html"
     }
 
-    @GetMapping("/view")
-    public String viewSchools(Model model) {
+    @GetMapping("/schools")
+    public String viewSchools(Model model, Principal principal) {
+        // Add username to the model
+        addUsernameToModel(model, principal);
+
+        // Existing logic
         List<School> schools = schoolService.getAllSchools();
         model.addAttribute("schools", schools);
         return "schools"; // Ensure school.html exists in src/main/resources/templates
     }
 
     @GetMapping("/quiz")
-    public String quizPage() {
+    public String quizPage(Model model, Principal principal) {
+        // Add username to the model
+        addUsernameToModel(model, principal);
+
+        // Existing logic
         return "quiz"; // Thymeleaf template name
     }
+
 
     @GetMapping
     public List<User> getAllUsers() {

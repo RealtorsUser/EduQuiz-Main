@@ -10,11 +10,8 @@
 <header>
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
-    <div class="auth" id="auth-section">
-        <a href="login.html">Sign In</a> / <a href="register.html">Sign Up</a>
-    </div>
-    <div class="profile" id="profile-section" style="display: none;">
-        <span id="username"></span> <a href="#" id="logout">Logout</a>
+    <div class="auth">
+        <span>Welcome, <span th:text="${username}"></span>!</span>
     </div>
 </header>
 <main>
