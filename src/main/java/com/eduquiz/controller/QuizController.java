@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/quizzes")
+@RequestMapping("")
 public class QuizController {
 
     @Autowired

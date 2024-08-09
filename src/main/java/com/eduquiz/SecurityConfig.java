@@ -29,38 +29,34 @@ public class SecurityConfig {
                         authorizeRequests
                                 // Permit access to static resources
                                 .requestMatchers(
-                                        "/js/script.js",           // Allow access to all JS files
-                                        "/css/styles.css",          // Allow access to all CSS files
-                                        "/api/users/register",
-                                        "/api/users/login",
-                                        "/api/users/submit_register",
-                                        "/api/users/submit_login",
-                                        "/api/schools/view",
-                                        "/api/users/results",
-                                        "/api/users/home",
-                                        "/api/users/quiz"
+                                        "/js/script.js",
+                                        "/css/styles.css",
+                                        "/register",
+                                        "/login",
+                                        "/submit_register",
+                                        "/submit_login",
+                                        "/schools",
+                                        "/results",
+                                        "/home"
                                 ).permitAll()
-                                // Permit access to all HTML pages
+                                // Protect specific endpoints that need authentication
                                 .requestMatchers(
-                                        "/**/quiz.html"
-                                ).permitAll()
-                                // Protect only specific endpoints that need authentication
-                                .requestMatchers(
-                                        "/api/users/profile",   // Example: protect user profile page
-                                        "/api/quizzes/**"          // Example: protect quiz-related pages
+                                        "/profile",
+                                        "/quiz"
                                 ).authenticated()
-                                // All other requests should be accessible without authentication
+                                // Any other request should be accessible without authentication
                                 .anyRequest().permitAll()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/api/users/login")  // URL for login page
-                                .defaultSuccessUrl("/api/users/home", true)  // Redirect after successful login
+                                .loginPage("/login")  // URL for login page
+                                .loginProcessingUrl("/submit_login") // Custom URL for form submission
+                                .defaultSuccessUrl("/home", true)  // Redirect after successful login
                                 .permitAll()
                 )
                 .logout(logout ->
                         logout
-                                .logoutSuccessUrl("/api/users/login")  // Redirect after logout
+                                .logoutSuccessUrl("/login")  // Redirect after logout
                                 .permitAll()
                 );
 
@@ -72,6 +68,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
-
-

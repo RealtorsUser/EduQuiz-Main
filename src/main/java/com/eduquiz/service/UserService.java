@@ -38,4 +38,14 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    public void testPasswordEncoding() {
+        String rawPassword = "password123";
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        boolean matches = passwordEncoder.matches(rawPassword, encodedPassword);
+
+        System.out.println("Raw Password: " + rawPassword);
+        System.out.println("Encoded Password: " + encodedPassword);
+        System.out.println("Password matches: " + matches);
+    }
+
 }

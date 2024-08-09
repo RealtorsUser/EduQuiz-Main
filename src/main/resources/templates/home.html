@@ -10,18 +10,18 @@
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div>
-        <span th:if="${username != null}">Welcome, <span th:text="${username}"></span>!</span>
+        <span>Welcome, <span th:text="${username}"></span>!</span>
         <span th:if="${username == null}">Welcome, Guest!</span>
     </div>
 </header>
 <main>
-    <form id="loginForm" th:action="@{/api/users/home}" method="post">
+    <form id="loginForm" th:action="@{/home}" method="post">
     <aside>
         <ul>
-            <li><a href="api/users/home">Home</a></li>
-            <li><a href="api/schools/view">Schools</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-            <li><a href="api/users/results">Results</a></li>
+            <li><a href="home">Home</a></li>
+            <li><a href="schools">Schools</a></li>
+            <li><a href="quiz">Quiz</a></li>
+            <li><a href="results">Results</a></li>
             <li><a href="prizes.html">Prizes</a></li>
             <li><a href="updates.html">Updates</a></li>
             <li><a href="youtube.html">YouTube</a></li>

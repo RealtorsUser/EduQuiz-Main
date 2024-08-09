@@ -10,11 +10,11 @@
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
     <div class="auth">
-        <a href="/api/users/login">Sign In</a> / <a href="/api/users/register">Sign Up</a>
+        <a href="/login">Sign In</a> / <a href="/register">Sign Up</a>
     </div>
 </header>
 <main id="main-content">
-    <form id="loginForm" th:action="@{/api/users/submit_login}" method="post">
+    <form id="loginForm" th:action="@{/submit_login}" method="post">
         <h2>Login</h2>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
