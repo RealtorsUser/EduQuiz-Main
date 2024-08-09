@@ -70,6 +70,7 @@ public class UserController {
 
             if (passwordMatch) {
                 System.out.println("Login successful, redirecting to /home");
+                model.addAttribute("username", user.getUsername());
                 return "home";
             }
         }
