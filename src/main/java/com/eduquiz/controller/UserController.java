@@ -1,21 +1,24 @@
 package com.eduquiz.controller;
 
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.eduquiz.model.Result;
 import com.eduquiz.model.School;
 import com.eduquiz.model.User;
 import com.eduquiz.service.ResultService;
 import com.eduquiz.service.SchoolService;
 import com.eduquiz.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping
@@ -31,7 +34,7 @@ public class UserController {
     private SchoolService schoolService;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -125,7 +128,11 @@ public class UserController {
     @GetMapping("/quiz")
     public String quizPage(Model model, Principal principal) {
         // Add username to the model
+    	try {
         addUsernameToModel(model, principal);
+    	}catch (Exception e) {
+    		e.printStackTrace();
+		}
 
         // Existing logic
         return "quiz"; // Thymeleaf template name

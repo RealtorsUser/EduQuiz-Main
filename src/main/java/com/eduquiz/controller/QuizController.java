@@ -2,8 +2,11 @@ package com.eduquiz.controller;
 
 import com.eduquiz.model.AnswerDTO;
 import com.eduquiz.model.Question;
+import com.eduquiz.model.Quiz;
 import com.eduquiz.model.QuizSubmissionDTO;
 import com.eduquiz.repository.QuestionRepository;
+import com.eduquiz.service.QuizService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +17,13 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/api")
 public class QuizController {
 
     @Autowired
     private QuestionRepository questionRepository;
-
-    @GetMapping
+    
+    @GetMapping("/quizzes")
     public ResponseEntity<List<Question>> getQuizQuestions() {
         List<Question> questions = questionRepository.findAll();
         return ResponseEntity.ok(questions);

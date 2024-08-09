@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const question = questions[index];
         questionsDiv.innerHTML = `
-            <h2>${index + 1}. ${question.question}</h2>
+            <h2>${index + 1}. ${question.questionText}</h2>
             ${question.options.map((option, i) => `
                 <div>
                     <input type="radio" id="option${i}" name="answer" value="${option}">
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function checkLoginStatus() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+       /* const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const username = localStorage.getItem('username');
         const authSection = document.getElementById('auth-section');
         const profileSection = document.getElementById('profile-section');
@@ -134,9 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
             authSection.style.display = 'none';
             profileSection.style.display = 'block';
             usernameSpan.textContent = username;
-        }
+        }*/
     }
 
+if(startQuizButton) {
     startQuizButton.addEventListener('click', function() {
         startQuizButton.disabled = true;
         fetchQuestions().then(() => {
@@ -144,15 +145,23 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuestion(currentQuestionIndex);
         });
     });
+} else {
+	console.log("startQuizButton not found");
+}
 
-    prevButton.addEventListener('click', function() {
+if(prevButton){
+	prevButton.addEventListener('click', function() {
         collectAnswers();
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayQuestion(currentQuestionIndex);
         }
     });
+   } else {
+	console.log("prevButton not found");
+}
 
+if(nextButton){
     nextButton.addEventListener('click', function() {
         collectAnswers();
         if (currentQuestionIndex < questions.length - 1) {
@@ -160,18 +169,28 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuestion(currentQuestionIndex);
         }
     });
-
+    } else {
+	console.log("nextButton not found");
+}
+if(finishButton){
     finishButton.addEventListener('click', function() {
         clearInterval(timer);
         collectAnswers();
         submitQuiz();
     });
+    } else {
+	console.log("finishButton not found");
+}
 
     checkLoginStatus();
-
+const logoutButton = document.getElementById('logout');
+if(logoutButton){
     document.getElementById('logout').addEventListener('click', function() {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         window.location.href = 'login.html';
     });
+    } else {
+		console.log('logoutButton not found')
+	}
 });
