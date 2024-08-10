@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
@@ -24,26 +23,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Consider enabling CSRF protection in production
+                .csrf(csrf -> csrf.disable())  // Enable CSRF protection
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 // Permit access to static resources
                                 .requestMatchers(
-                                        "/js/script.js",
-                                        "/css/styles.css",
+                                        "/js/**",  // Allow all JavaScript resources
+                                        "/css/**", // Allow all CSS resources
                                         "/register",
                                         "/login",
                                         "/submit_register",
                                         "/submit_login",
                                         "/schools",
                                         "/results",
-                                        "/home"
+                                        "/home",
+                                        "/updates",
+                                        "/youtube",
+                                        "/aboutus",
+                                        "/helpline",
+                                        "/index",
+                                        "/prizes"
                                 ).permitAll()
                                 // Protect specific endpoints that need authentication
-                                .requestMatchers(
-                                        "/profile",
-                                        "/quiz"
-                                ).authenticated()
+                                .requestMatchers("/quiz").authenticated()
                                 // Any other request should be accessible without authentication
                                 .anyRequest().permitAll()
                 )
@@ -59,7 +61,6 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/login")  // Redirect after logout
                                 .permitAll()
                 );
-
         return http.build();
     }
 

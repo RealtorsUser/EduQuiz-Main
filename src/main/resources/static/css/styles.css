@@ -24,13 +24,16 @@ header {
 }
 
 header .logo {
-    font-size: 2rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
 header .title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 500;
+    @media only screen and (max-width: 600px) {
+        display: none;
+    }
 }
 
 header .auth a, header .profile a {
@@ -44,23 +47,26 @@ header .auth a:hover, header .profile a:hover {
     color: #ffd700;
 }
 
+auth {
+    font-size: 0.8rem;
+}
+
 main {
     display: flex;
     flex: 1;
-    padding: 2rem;
     background-color: #ffffff;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    margin: 2rem;
+    margin: 1rem;
 }
 
 aside {
     background: linear-gradient(180deg, #ff7e5f, #feb47b);
-    width: 20%;
-    padding: 2rem;
+    width: 15%;
+    padding: 1rem;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     color: white;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 aside ul {
@@ -69,13 +75,13 @@ aside ul {
 }
 
 aside ul li {
-    margin: 1.5rem 0;
+    margin: 0.5rem 0;
 }
 
 aside ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     transition: color 0.3s;
 }
 
@@ -85,9 +91,9 @@ aside ul li a:hover {
 
 #main-content {
     flex: 1;
-    padding: 3rem;
+    padding: 1rem;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -160,12 +166,16 @@ form button:hover {
     flex-direction: column;
 }
 
+#questions h2 {
+    font-size: 0.9rem;
+}
+
 #questions div {
     margin-bottom: 1rem;
-    font-size: 1.2rem;
-    padding: 1rem;
+    font-size: 0.8rem;
+    padding: 0.5rem;
     background-color: #f0f4f8;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -194,15 +204,14 @@ form button:hover {
 
 button {
     display: block;
-    margin: 1rem auto;
-    padding: 0.75rem 1.5rem;
+    margin: .5rem auto;
+    padding: 0.5rem 1.25rem;
     background: linear-gradient(90deg, #2193b0, #6dd5ed);
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
+    transition: background 0.3s
 }
 
 button:hover {
@@ -234,4 +243,21 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #ddd;
+}
+
+#questionNumbers {
+    display: flex;
+    column-gap: 12px;
+}
+
+#questionNumber .question-number {
+    padding: 3px;
+}
+
+#questionNumber .question-number.active {
+    background-color: darkgray;
+}
+
+.login-info {
+    font-size: 0.8rem;
 }

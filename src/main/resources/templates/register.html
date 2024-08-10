@@ -9,11 +9,15 @@
 <header>
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
-    <div class="auth">
-        <a href="/login">Sign In</a> / <a href="/register">Sign Up</a>
+    <div class="auth" th:if="${username == null}">
+        <a href="/login">Sign In</a> | <a href="/register">Sign Up</a>
+    </div>
+    <div class="login-info" th:if="${username != null}">
+        <span>Welcome, <span th:text="${username}"></span>! | <a href="/logout"> LogOut</a></span>
+        <span th:if="${username == null}">Welcome, Guest!</span>
     </div>
 </header>
-<main>
+<main id="main-content">
     <form id="registerForm" th:action="@{/submit_register}" method="post" th:object="${quizUser}">
         <h2>Register</h2>
         <label for="firstName">First Name:</label>

@@ -9,14 +9,14 @@
 <header>
     <div class="logo">EduQuiz Logo</div>
     <div class="title">EduQuiz</div>
-    <a href="/logout">Login Out</a>
-    <div>
-        <span>Welcome, <span th:text="${username}"></span>!</span>
-        <span th:if="${username == null}">Welcome, Guest!</span>
+    <div class="auth" th:if="${username == null}">
+        <a href="/login">Sign In</a> | <a href="/register">Sign Up</a>
+    </div>
+    <div class="login-info" th:if="${username != null || username == 'Guest'}">
+        <span>Welcome, <span th:text="${username}"></span>! | <a href="/logout"> LogOut</a></span>
     </div>
 </header>
 <main>
-    <form id="loginForm" th:action="@{/home}" method="post">
     <aside>
         <ul>
             <li><a href="home">Home</a></li>
@@ -34,7 +34,6 @@
         <h1>Welcome to EduQuiz</h1>
         <p>Your platform for interactive quizzes and educational resources.</p>
     </section>
-    </form>
 </main>
 <footer>
     <p>&copy; 2024 EduQuiz. All rights reserved.</p>

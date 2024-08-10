@@ -2,7 +2,6 @@ package com.eduquiz.controller;
 
 import java.security.Principal;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,14 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.eduquiz.model.Result;
 import com.eduquiz.model.School;
 import com.eduquiz.model.User;
 import com.eduquiz.service.ResultService;
 import com.eduquiz.service.SchoolService;
 import com.eduquiz.service.UserService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -67,21 +64,15 @@ public class UserController {
                             @RequestParam("password") String password,
                             Model model, HttpServletRequest request) {
         System.out.println("Attempting login for username: " + username);
-
         User user = userService.findByUsername(username);
         if (user != null) {
-            System.out.println("User found: " + user.getUsername());
             boolean passwordMatch = passwordEncoder.matches(password, user.getPassword());
-            System.out.println("Password match: " + passwordMatch);
-
             if (passwordMatch) {
                 System.out.println("Login successful, redirecting to /home");
-                model.addAttribute("username", user.getUsername());
                 request.getSession().setAttribute("username", user.getUsername());
-                return "home";
+                return "redirect:/home"; // Redirect to home after successful login
             }
         }
-
         System.out.println("Login failed, invalid credentials");
         model.addAttribute("error", "Invalid username or password");
         return "login";
@@ -89,69 +80,56 @@ public class UserController {
 
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
-        String username = principal.getName(); // Get the username of the logged-in user
-
-        // Fetch the user from the database using the username
-        User user = userService.findByUsername(username);
-
-        // Add the username to the model
-        model.addAttribute("username", user.getUsername());
-
-        return "home"; // Return the home.html view
+        if (principal != null) {
+            String username = principal.getName();
+            User user = userService.findByUsername(username);
+            model.addAttribute("username", user.getUsername());
+        } else {
+            model.addAttribute("username", "Guest"); // Handle unauthenticated user
+        }
+        return "home";
     }
 
-
     private void addUsernameToModel(Model model, Principal principal) {
-        String username = principal.getName();
-        User user = userService.findByUsername(username);
-        model.addAttribute("username", user.getUsername());
+        if (principal != null) {
+            String username = principal.getName();
+            User user = userService.findByUsername(username);
+            model.addAttribute("username", user.getUsername());
+        } else {
+            model.addAttribute("username", "Guest"); // Handle unauthenticated user
+        }
     }
 
     @GetMapping("/results")
     public String getResultsPage(Model model, Principal principal) {
-        // Add username to the model
         addUsernameToModel(model, principal);
-
-        // Existing logic
         List<Result> results = resultService.getAllResults();
         model.addAttribute("results", results);
-        return "results"; // This will resolve to "results.html"
+        return "results";
     }
 
     @GetMapping("/schools")
     public String viewSchools(Model model, Principal principal) {
-        // Add username to the model
         addUsernameToModel(model, principal);
-
-        // Existing logic
         List<School> schools = schoolService.getAllSchools();
         model.addAttribute("schools", schools);
-        return "schools"; // Ensure school.html exists in src/main/resources/templates
+        return "schools";
     }
 
     @GetMapping("/quiz")
     public String quizPage(Model model, Principal principal) {
-        // Add username to the model
-    	try {
         addUsernameToModel(model, principal);
-    	}catch (Exception e) {
-    		e.printStackTrace();
-		}
-
-        // Existing logic
-        return "quiz"; // Thymeleaf template name
+        return "quiz";
     }
-
 
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-    
+
     @GetMapping("/logout")
-	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		// Clear session and redirect to login page
-		request.getSession().invalidate();
-		return "redirect:/login?logout";
-	}
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().invalidate();
+        return "redirect:/login?logout";
+    }
 }
