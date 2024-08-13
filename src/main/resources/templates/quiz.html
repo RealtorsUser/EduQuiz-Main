@@ -9,47 +9,47 @@
 </head>
 
 <body>
-	<header>
-		<div class="logo">EduQuiz Logo</div>
-		<div class="title">EduQuiz</div>
-		<div class="auth" th:if="${username == null}">
-			<a href="/login">Sign In</a> | <a href="/register">Sign Up</a>
-		</div>
-		<div class="login-info" th:if="${username != null}">
-			<span>Welcome, <span th:text="${username}"></span>! | <a href="/logout"> LogOut</a></span>
-			<span th:if="${username == null}">Welcome, Guest!</span>
-		</div>
-	</header>
-	<main>
-		<aside>
-			<ul>
-				<li><a href="home">Home</a></li>
-				<li><a href="schools">Schools</a></li>
-				<li><a href="quiz">Quiz</a></li>
-				<li><a href="results">Results</a></li>
-				<li><a href="prizes">Prizes</a></li>
-				<li><a href="updates">Updates</a></li>
-				<li><a href="youtube">YouTube</a></li>
-				<li><a href="aboutus">About Us</a></li>
-				<li><a href="helpline">Helpline</a></li>
-			</ul>
-		</aside>
-		<section id="main-content">
-			<div class="timer" id="timer">20:00</div>
-			<button id="startQuiz">Start Quiz</button>
-			<div id="questionNumbers"></div>
-			<div id="questions"></div>
-			<button id="prevQuestion" disabled>Previous</button>
-			<button id="nextQuestion" disabled>Next</button>
-			<button id="finishTest" disabled><a href="api/submit">Finish Test</a></button>
+<header>
+	<div class="logo">EduQuiz Logo</div>
+	<div class="title">EduQuiz</div>
+	<div class="auth" th:if="${username == null}">
+		<a href="/login">Sign In</a> | <a href="/register">Sign Up</a>
+	</div>
+	<div class="login-info" th:if="${username != null}">
+		<span>Welcome, <span th:text="${username}"></span>! | <a href="/logout"> LogOut</a></span>
+	</div>
+	<div id="QuizUser" class="hidden" th:text="${username}"></div>
+</header>
+<main>
+	<aside>
+		<ul>
+			<li><a href="home">Home</a></li>
+			<li><a href="schools">Schools</a></li>
+			<li><a href="quiz">Quiz</a></li>
+			<li><a href="results">Results</a></li>
+			<li><a href="prizes">Prizes</a></li>
+			<li><a href="updates">Updates</a></li>
+			<li><a href="youtube">YouTube</a></li>
+			<li><a href="aboutus">About Us</a></li>
+			<li><a href="helpline">Helpline</a></li>
+		</ul>
+	</aside>
+	<section id="main-content">
+		<div class="timer" id="timer">20:00</div>
+		<button id="startQuiz">Start Quiz</button>
+		<div id="questionNumbers"></div>
+		<div id="questions"></div>
+		<button id="prevQuestion" disabled>Previous</button>
+		<button id="nextQuestion" disabled>Next</button>
+		<button id="finishTest">Finish Test</button>
+		<div id="result" style="display: none;"></div> <!-- This is where the result will be displayed -->
+	</section>
 
-		</section>
-
-	</main>
-	<footer>
-		<p>&copy; 2024 EduQuiz. All rights reserved.</p>
-	</footer>
-	<script th:src="@{/js/scripts.js}"></script>
+</main>
+<footer>
+	<p>&copy; 2024 EduQuiz. All rights reserved.</p>
+</footer>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 
 </html>

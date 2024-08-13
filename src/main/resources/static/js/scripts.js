@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let timeLeft = 20 * 60; // 20 minutes in seconds
     let questions = [];
     const answers = []; // Array to store user answers
+    const username = document.getElementById('QuizUser').textContent.trim();
 
     const startQuizButton = document.getElementById('startQuiz');
     const timerElement = document.getElementById('timer');
@@ -15,17 +16,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function fetchQuestions() {
         try {
-            const response = await fetch('/api/quizzes');
-            if (response.ok) {
-                questions = await response.json();
-                displayQuestion(currentQuestionIndex);
-                setupQuestionNumbers();
-            } else {
-                console.error('Failed to fetch questions');
-            }
+            const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vR97v2xZ5tYvKJvzIuMklYQcr1uVFXYJcjGdnU1SayjzvmtcjAt6V8r1xByetvGopeKCkRjV5R4bZIf/pub?output=csv');
+            const csvText = await response.text();
+            questions = parseCSV(csvText).slice(0, 25); // Take 25 random questions
+            displayQuestion(currentQuestionIndex);
+            setupQuestionNumbers();
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
+    }
+
+    function parseCSV(csvText) {
+        const rows = csvText.split('\n').slice(1); // Ignore the header row
+        return rows.map(row => {
+            const columns = row.split(',');
+            return {
+                questionText: columns[0],
+                options: [columns[1], columns[2], columns[3], columns[4]],
+                correctOption: columns[5].trim()
+            };
+        });
     }
 
     function startTimer() {
@@ -100,44 +110,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function submitQuiz() {
         collectAnswers();
-        const submission = answers.map((answer, index) => ({
-            questionId: questions[index].id,
-            selectedAnswer: answer
-        }));
+
+        // Validate answers and calculate score
+        const score = answers.reduce((acc, answer, index) => {
+            return acc + (answer === questions[index].correctOption ? 1 : 0);
+        }, 0);
+
+        // Save result to the Google Sheets
+        await saveResult(score);
+        // Hide quiz-related elements
+        document.getElementById('timer').style.display = 'none';
+        document.getElementById('startQuiz').style.display = 'none';
+        document.getElementById('questionNumbers').style.display = 'none';
+        document.getElementById('questions').style.display = 'none';
+        document.getElementById('prevQuestion').style.display = 'none';
+        document.getElementById('nextQuestion').style.display = 'none';
+        document.getElementById('finishTest').style.display = 'none';
+
+        // Show result container
+        const resultContainer = document.getElementById('result');
+        resultContainer.style.display = 'block';
+        resultContainer.innerHTML = `<h2>Your Score: ${score}</h2>`;
+    }
+
+    async function saveResult(score) {
+        const username = document.getElementById('QuizUser').textContent.trim();
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyhzFvO1gzeZyBEx8vMJ6p8fjSY2czal-uJ5rhkUyMQoUBbdbx-hvt1nPQx1z4s5s1Jjw/exec'; // Replace with the actual URL
+
+        const resultData = {
+            username: username,
+            score: score
+        };
 
         try {
-            const response = await fetch('/api/quizzes/submit', {
+            const response = await fetch(scriptURL, {
                 method: 'POST',
+                body: JSON.stringify(resultData),
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ answers: submission })
+                }
             });
 
             const result = await response.json();
-            alert(`Your score: ${result.score}/${result.totalQuestions}`);
+
+            if (result.status === 'success') {
+                console.log("Result saved successfully.");
+            } else {
+                console.error("Error saving result:", result.message);
+            }
         } catch (error) {
-            console.error('Error submitting quiz:', error);
+            console.error('Error:', error);
         }
     }
 
-    function checkLoginStatus() {
-       /* const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        const username = localStorage.getItem('username');
-        const authSection = document.getElementById('auth-section');
-        const profileSection = document.getElementById('profile-section');
-        const usernameSpan = document.getElementById('username');
 
-        if (!isLoggedIn) {
-            window.location.href = 'login.html';
-        } else {
-            authSection.style.display = 'none';
-            profileSection.style.display = 'block';
-            usernameSpan.textContent = username;
-        }*/
-    }
-
-if(startQuizButton) {
     startQuizButton.addEventListener('click', function() {
         startQuizButton.disabled = true;
         fetchQuestions().then(() => {
@@ -145,23 +172,15 @@ if(startQuizButton) {
             displayQuestion(currentQuestionIndex);
         });
     });
-} else {
-	console.log("startQuizButton not found");
-}
 
-if(prevButton){
-	prevButton.addEventListener('click', function() {
+    prevButton.addEventListener('click', function() {
         collectAnswers();
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayQuestion(currentQuestionIndex);
         }
     });
-   } else {
-	console.log("prevButton not found");
-}
 
-if(nextButton){
     nextButton.addEventListener('click', function() {
         collectAnswers();
         if (currentQuestionIndex < questions.length - 1) {
@@ -169,28 +188,18 @@ if(nextButton){
             displayQuestion(currentQuestionIndex);
         }
     });
-    } else {
-	console.log("nextButton not found");
-}
-if(finishButton){
-    finishButton.addEventListener('click', function() {
-        clearInterval(timer);
-        collectAnswers();
-        submitQuiz();
-    });
-    } else {
-	console.log("finishButton not found");
-}
 
-    checkLoginStatus();
-const logoutButton = document.getElementById('logout');
-if(logoutButton){
-    document.getElementById('logout').addEventListener('click', function() {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
-        window.location.href = 'login.html';
+    finishButton.addEventListener('click', async function() {
+        clearInterval(timer); // Stop the timer
+        collectAnswers(); // Ensure the last question's answer is recorded
+        await submitQuiz(); // Validate, display, and save the result
     });
-    } else {
-		console.log('logoutButton not found')
-	}
+
+    // Initialize the quiz with login status check
+    if (username === '') {
+        alert('Please log in to take the quiz.');
+        window.location.href = '/login';
+    }
 });
+
+
